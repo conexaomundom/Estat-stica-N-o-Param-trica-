@@ -110,6 +110,8 @@ ks.test(Idade, Terreno)
 ###
 medias <- apply(banco, 2, "mean")
 medias
+banco1 <- as.matrix(banco)
+modelo_anova <-  anova(banco1)
 
 normalidade_shapiro <- apply(banco, 2, shapiro.test)
 library(nortest)
