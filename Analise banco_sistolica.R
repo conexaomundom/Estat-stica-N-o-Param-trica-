@@ -62,11 +62,49 @@ fisher.test(matriz)
 # H0: NÃO Existe diferença no parÂmetro de loca¸c˜ao da press˜ao sangu´ınea entre os gˆeneros?
 # H1: Existe diferença no parÂmetro de loca¸c˜ao da press˜ao sangu´ınea entre os gˆeneros
 names(SISTOLICA)
-SIGN.test(sexo, Pre-Exerc._sem_Estresse,alternative = "two.sided")
-wilcox.test(sexo, Pre-Exerc._sem_Estresse, paired = TRUE)
+SIGN.test(sexo, Pre_Exerc_sem_Estresse,alternative = "two.sided")
+wilcox.test(sexo, Pre_Exerc_sem_Estresse, paired = TRUE)
+
+# Em ambos os testes Rejeitamos H0 com p-valores de 1.192e-07 e 1.938e-05 para o teste do sinal e 
+# teste de wilcoxon respectivamente. Rejeitando H0, rejeitamos a hipótese que não existe diferença 
+# no parÂmetro de loca¸c˜ao da press˜ao sangu´ınea entre os gˆeneros. Desta forma podendo afirmar que 
+# Existe diferença no parÂmetro de loca¸c˜ao da press˜ao sangu´ınea entre os gˆeneros.
 
 
-# Entre quais tipo de press˜ao sangu´ınea existe diferen¸ca em relaçao ao parˆametro de locaçaõ?x
+# Entre quais tipo de press˜ao sangu´ınea existe diferen¸ca em relaçao ao parˆametro de locaçaõ?
+names(SISTOLICA)
+# Vejo sentido comparar pre com pos e nao pre com pre, e pos com pos, inclusive nao cruzando os
+# motivos do estresse até porque nao tera uma interpretacao plausível para tal relação.
+
+# pre e pos de exercicios sem estresse
+SIGN.test(Pre_Exerc_sem_Estresse,Pos_Exerc_sem_Estresse, alternative = "two.sided")
+wilcox.test(Pre_Exerc_sem_Estresse,Pos_Exerc_sem_Estresse, paired = TRUE)
+
+
+# Em ambos os testes não Rejeitamos H0 com p-valores de 0.6776 e 0.9031 para o teste do sinal e 
+# teste de wilcoxon respectivamente.  Não Rejeitando H0,  não rejeitamos a hipótese que não existe diferença 
+# no parÂmetro de  presso sangu´ínea pre e pos sem estresse. Desta forma podendo afirmar que 
+# não xiste diferença no parÂmetro de loca¸c˜ao da press˜ao sangu´ınea entre os gˆeneros.
+
+
+# pre e pos de exercicios com estresse Matematica
+SIGN.test(Pre_Exerc_com_Estresse_Matematica,Pos_Exerc_com_Estresse_Matematica, alternative = "two.sided")
+wilcox.test(Pre_Exerc_com_Estresse_Matematica,Pos_Exerc_com_Estresse_Matematica, paired = TRUE)
+# Ao nível de significancia de 5% em ambos os testes Rejeitamos H0 com p-valores de 0.0002772 e 0.0001815
+# para o teste do sinal e teste de wilcoxon respectivamente. Rejeitando H0, rejeitamos a hipótese que não 
+# existe diferença no parÂmetro de loca¸c˜ao da press˜ao sangu´ınea pre e pos de exercicios com estresse 
+# Matematica. Desta forma podendo afirmar que Existe diferença no parÂmetro de loca¸c˜ao da press˜ao sangu´ınea 
+# pre e pos de exercicios sem estresse Matematica.
+
+# pre e pos de exercicios com estresse Verbal
+SIGN.test(Pre_Exerc_com_Estresse_Verbal,Pos_Exerc_com_Estresse_Verbal, alternative = "two.sided")
+wilcox.test(Pre_Exerc_com_Estresse_Verbal,Pos_Exerc_com_Estresse_Verbal, paired = TRUE)
+# Ao nível de significancia de 5% em ambos os testes Rejeitamos H0 com p-valores de 1.192e-07 e 1.933e-05
+# para o teste do sinal e teste de wilcoxon respectivamente. Rejeitando H0, rejeitamos a hipótese que não 
+# existe diferença no parÂmetro de loca¸c˜ao da press˜ao sangu´ınea pre e pos de exercicios com estresse 
+# Verbal. Desta forma podendo afirmar que Existe diferença no parÂmetro de loca¸c˜ao da press˜ao sangu´ınea 
+# pre e pos de exercicios sem estresse Verbal.
+
   
 # Podemos afirmar que a press˜ao sangu´ınea aumenta ap´os o exerc´ıcio?
   
