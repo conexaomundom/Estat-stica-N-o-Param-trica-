@@ -5,6 +5,7 @@ install.packages("moments")
 install.packages("robustbase")
 install.packages("mvoutlier")
 install.packages("BSDA")
+install.packages("xtable")
 library(BSDA)
 
 
@@ -162,28 +163,49 @@ chisq.test(Pos_Exerc_com_Estresse_Matematica, Pos_Exerc_com_Estresse_Verbal)$p.v
 # os dados seguem a mesma distribuição podendo assim afirmar que ambos seguem 
 # a mesma distribuiçaõ
 
-# Pre_Exerc_sem_Estresse, Pre_Exerc_com_Estresse_Matematica tem mesma distribuição, com p-valdor de 0.2560619
-# Pre_Exerc_sem_Estresse, Pre_Exerc_com_Estresse_Verbal tem mesma distribuição, com p-valdor de 0.2124031
-# Pre_Exerc_sem_Estresse, Pos_Exerc_sem_Estresse tem mesma distribuição, com p-valdor de 0.2560619
-# Pre_Exerc_sem_Estresse, Pos_Exerc_com_Estresse_Matematica tem mesma distribuição, com p-valdor de 0.2720914
-# Pre_Exerc_sem_Estresse, Pos_Exerc_com_Estresse_Verbal tem mesma distribuição, com p-valdor de 0.2560619
-# Pre_Exerc_com_Estresse_Matematica, Pre_Exerc_com_Estresse_Verbal têm mesma distribuição, com p-valdor de 0.2720914
+
+# Todos os pares de variáveis tem a mesma distribuição de acordo com o teste qui-quadrado.
 
 
-ks.test(Pre_Exerc_sem_Estresse, Pre_Exerc_com_Estresse_Matematica)$p.value
-ks.test(Pre_Exerc_sem_Estresse, Pre_Exerc_com_Estresse_Verbal)$p.value
-ks.test(Pre_Exerc_sem_Estresse, Pos_Exerc_sem_Estresse)$p.value
-ks.test(Pre_Exerc_sem_Estresse, Pos_Exerc_com_Estresse_Matematica)$p.value
-ks.test(Pre_Exerc_sem_Estresse, Pos_Exerc_com_Estresse_Verbal)$p.value
-ks.test(Pre_Exerc_com_Estresse_Matematica, Pre_Exerc_com_Estresse_Verbal)$p.value
-ks.test(Pre_Exerc_com_Estresse_Matematica, Pos_Exerc_sem_Estresse)$p.value
-ks.test(Pre_Exerc_com_Estresse_Matematica, Pos_Exerc_com_Estresse_Matematica)$p.value
-ks.test(Pre_Exerc_com_Estresse_Matematica, Pos_Exerc_com_Estresse_Verbal)$p.value
-ks.test(Pre_Exerc_com_Estresse_Verbal, Pos_Exerc_sem_Estresse)$p.value
-ks.test(Pre_Exerc_com_Estresse_Verbal, Pos_Exerc_com_Estresse_Matematica)$p.value
-ks.test(Pre_Exerc_com_Estresse_Verbal, Pos_Exerc_com_Estresse_Verbal)$p.value
-ks.test(Pos_Exerc_com_Estresse_Matematica, Pos_Exerc_com_Estresse_Verbal)$p.value
+X1X2 <- ks.test(Pre_Exerc_sem_Estresse, Pre_Exerc_com_Estresse_Matematica)$p.value
+X1X3  <- ks.test(Pre_Exerc_sem_Estresse, Pre_Exerc_com_Estresse_Verbal)$p.value
+X1X4  <- ks.test(Pre_Exerc_sem_Estresse, Pos_Exerc_sem_Estresse)$p.value
+X1X5  <- ks.test(Pre_Exerc_sem_Estresse, Pos_Exerc_com_Estresse_Matematica)$p.value
+X1X6  <- ks.test(Pre_Exerc_sem_Estresse, Pos_Exerc_com_Estresse_Verbal)$p.value
 
+X2X3  <- ks.test(Pre_Exerc_com_Estresse_Matematica, Pre_Exerc_com_Estresse_Verbal)$p.value
+X2X4  <- ks.test(Pre_Exerc_com_Estresse_Matematica, Pos_Exerc_sem_Estresse)$p.value
+X2X5  <- ks.test(Pre_Exerc_com_Estresse_Matematica, Pos_Exerc_com_Estresse_Matematica)$p.value
+X2X6  <- ks.test(Pre_Exerc_com_Estresse_Matematica, Pos_Exerc_com_Estresse_Verbal)$p.value
+
+X3X4  <- ks.test(Pre_Exerc_com_Estresse_Verbal, Pos_Exerc_sem_Estresse)$p.value
+X3X5  <- ks.test(Pre_Exerc_com_Estresse_Verbal, Pos_Exerc_com_Estresse_Matematica)$p.value
+X3X6  <- ks.test(Pre_Exerc_com_Estresse_Verbal, Pos_Exerc_com_Estresse_Verbal)$p.value
+
+X4X5  <- ks.test(Pos_Exerc_com_Estresse_Matematica, Pos_Exerc_com_Estresse_Verbal)$p.value
+
+
+library(xtable)
+xtable(cbind(a,b,c,d,e,f,g,h,i,j,k,l,m))
+
+
+### Nem todas as variáveis têm a mesma distribuição.
+# Pre_Exerc_sem_Estresse, Pre_Exerc_com_Estresse_Matematica não tem mesma distribuição com p-valor 0.000567926
+# Pre_Exerc_sem_Estresse, Pre_Exerc_com_Estresse_Verbal não tem mesma distribuição com p-valor 1.178693e-05
+# Pre_Exerc_sem_Estresse, Pos_Exerc_com_Estresse_Matematica não tem mesma distribuição com p-valor 0.001749335
+# Pre_Exerc_sem_Estresse, Pos_Exerc_com_Estresse_Verbal não tem mesma distribuição com p-valor 0.004957504
+
+# Pre_Exerc_com_Estresse_Matematica, Pos_Exerc_sem_Estresse não tem mesma distribuição com p-valor 0.0001696365
+# Pre_Exerc_com_Estresse_Verbal, Pos_Exerc_sem_Estresse 2.741918e-06
+# Pre_Exerc_com_Estresse_Verbal, Pos_Exerc_com_Estresse_Matematica 0.01292593
+# Pre_Exerc_com_Estresse_Verbal, Pos_Exerc_com_Estresse_Verbal 0.03100759
+
+### Essas variaveis tem sim a mesma distribuiçao
+# Pre_Exerc_sem_Estresse, Pos_Exerc_sem_Estresse 0.4413066
+# Pre_Exerc_com_Estresse_Matematica, Pre_Exerc_com_Estresse_Verbal 0.674894
+# Pre_Exerc_com_Estresse_Matematica, Pos_Exerc_com_Estresse_Matematica 0.2590564
+# Pre_Exerc_com_Estresse_Matematica, Pos_Exerc_com_Estresse_Verbal 0.2590564
+# Pos_Exerc_com_Estresse_Matematica, Pos_Exerc_com_Estresse_Verbal 0.9919639
 
 
 #####################################################################################
