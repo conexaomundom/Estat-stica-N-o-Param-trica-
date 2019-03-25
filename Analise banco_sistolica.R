@@ -134,6 +134,57 @@ wilcox.test(Pre_Exerc_com_Estresse_Verbal,Pos_Exerc_com_Estresse_Verbal,
 
   
 # Quais diferentes press˜oes sangu´ıneas podemos dizer que tˆem a mesma distribui¸c˜ao?
+# "Pre_Exerc_sem_Estresse"           
+# "Pre_Exerc_com_Estresse_Matematica"
+# "Pre_Exerc_com_Estresse_Verbal"    
+# "Pos_Exerc_sem_Estresse"           
+# "Pos_Exerc_com_Estresse_Matematica"
+# "Pos_Exerc_com_Estresse_Verbal"    
+
+apply(SISTOLICA[ ,3:8], 2, chisq.test)
+
+chisq.test(Pre_Exerc_sem_Estresse, Pre_Exerc_com_Estresse_Matematica)$p.value
+chisq.test(Pre_Exerc_sem_Estresse, Pre_Exerc_com_Estresse_Verbal)$p.value
+chisq.test(Pre_Exerc_sem_Estresse, Pos_Exerc_sem_Estresse)$p.value
+chisq.test(Pre_Exerc_sem_Estresse, Pos_Exerc_com_Estresse_Matematica)$p.value
+chisq.test(Pre_Exerc_sem_Estresse, Pos_Exerc_com_Estresse_Verbal)$p.value
+
+chisq.test(Pre_Exerc_com_Estresse_Matematica, Pre_Exerc_com_Estresse_Verbal)$p.value
+chisq.test(Pre_Exerc_com_Estresse_Matematica, Pos_Exerc_sem_Estresse)$p.value
+chisq.test(Pre_Exerc_com_Estresse_Matematica, Pos_Exerc_com_Estresse_Matematica)$p.value
+chisq.test(Pre_Exerc_com_Estresse_Matematica, Pos_Exerc_com_Estresse_Verbal)$p.value
+chisq.test(Pre_Exerc_com_Estresse_Verbal, Pos_Exerc_sem_Estresse)$p.value
+
+chisq.test(Pre_Exerc_com_Estresse_Verbal, Pos_Exerc_com_Estresse_Matematica)$p.value
+chisq.test(Pre_Exerc_com_Estresse_Verbal, Pos_Exerc_com_Estresse_Verbal)$p.value
+chisq.test(Pos_Exerc_com_Estresse_Matematica, Pos_Exerc_com_Estresse_Verbal)$p.value
+# Se o p-valor for maior que 5% não rejeito H0, nao rejeto a hipotese que 
+# os dados seguem a mesma distribuição podendo assim afirmar que ambos seguem 
+# a mesma distribuiçaõ
+
+# Pre_Exerc_sem_Estresse, Pre_Exerc_com_Estresse_Matematica tem mesma distribuição, com p-valdor de 0.2560619
+# Pre_Exerc_sem_Estresse, Pre_Exerc_com_Estresse_Verbal tem mesma distribuição, com p-valdor de 0.2124031
+# Pre_Exerc_sem_Estresse, Pos_Exerc_sem_Estresse tem mesma distribuição, com p-valdor de 0.2560619
+# Pre_Exerc_sem_Estresse, Pos_Exerc_com_Estresse_Matematica tem mesma distribuição, com p-valdor de 0.2720914
+# Pre_Exerc_sem_Estresse, Pos_Exerc_com_Estresse_Verbal tem mesma distribuição, com p-valdor de 0.2560619
+# Pre_Exerc_com_Estresse_Matematica, Pre_Exerc_com_Estresse_Verbal têm mesma distribuição, com p-valdor de 0.2720914
+
+
+ks.test(Pre_Exerc_sem_Estresse, Pre_Exerc_com_Estresse_Matematica)$p.value
+ks.test(Pre_Exerc_sem_Estresse, Pre_Exerc_com_Estresse_Verbal)$p.value
+ks.test(Pre_Exerc_sem_Estresse, Pos_Exerc_sem_Estresse)$p.value
+ks.test(Pre_Exerc_sem_Estresse, Pos_Exerc_com_Estresse_Matematica)$p.value
+ks.test(Pre_Exerc_sem_Estresse, Pos_Exerc_com_Estresse_Verbal)$p.value
+ks.test(Pre_Exerc_com_Estresse_Matematica, Pre_Exerc_com_Estresse_Verbal)$p.value
+ks.test(Pre_Exerc_com_Estresse_Matematica, Pos_Exerc_sem_Estresse)$p.value
+ks.test(Pre_Exerc_com_Estresse_Matematica, Pos_Exerc_com_Estresse_Matematica)$p.value
+ks.test(Pre_Exerc_com_Estresse_Matematica, Pos_Exerc_com_Estresse_Verbal)$p.value
+ks.test(Pre_Exerc_com_Estresse_Verbal, Pos_Exerc_sem_Estresse)$p.value
+ks.test(Pre_Exerc_com_Estresse_Verbal, Pos_Exerc_com_Estresse_Matematica)$p.value
+ks.test(Pre_Exerc_com_Estresse_Verbal, Pos_Exerc_com_Estresse_Verbal)$p.value
+ks.test(Pos_Exerc_com_Estresse_Matematica, Pos_Exerc_com_Estresse_Verbal)$p.value
+
+
 
 #####################################################################################
 ## Realizando testes PARAMETRICOS
