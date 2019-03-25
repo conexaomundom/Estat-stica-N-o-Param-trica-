@@ -130,3 +130,19 @@ wilcox.test(Preco_Anunciado,Preco_de_Venda, paired = TRUE)
 # Rejeita H0, ou seja, rejeita-se a hipótese que que não há diferença entre o preçode venda e o preço
 # anunciado, ou seja podemos afirmar que há diferença entre eles. para ambos os testes com p-valores
 # 3.331e-15 e 1.082e-09 para os teste de do sinal e o teste de Wilcoxon respectivamente.
+
+####################################################################################
+#Existe associaçaoo entre o número de quartos e banheiros?
+
+# teste de indenpendencia ou homogeneidade
+
+# H0: Nao Existe associaçaoo entre o número de quartos e banheiros
+# H1: Existe associaçaoo entre o número de quartos e banheiros
+
+ma <- matrix(c(Quartos,Banheiros), 50, 2, byrow = TRUE)
+chisq.test(ma)
+# Ao realizar o teste qui- quadrado de independencia, associação, o p-valor resultou em ao muuuuuuito proximo de
+# 1 ou seja, rejeitamos a hipotese nula com louvor sinalizando que rejeitamos a hipotese que não há associação
+# entre o numero de quartos e o numero de banheiros afirmando que há associação sim entre essas duas variáveis.
+
+
