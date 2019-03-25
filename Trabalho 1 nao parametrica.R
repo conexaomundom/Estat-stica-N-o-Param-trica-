@@ -5,6 +5,9 @@ install.packages("MVA")
 install.packages("moments")
 install.packages("robustbase")
 install.packages("mvoutlier")
+install.packages("BSDA")
+library(BSDA)
+
 
 library(moments)
 library(robustbase)
@@ -76,9 +79,9 @@ qqnorm(Preco_Anunciado); qqline(Preco_Anunciado, col = 2)
 # O que você pode dizer acerca da distribuição dos dados? E o que isso implica?
 detach(banco)
 library(psych)
-pairs(banco)
-pairs.panels(banco)
-?pairs.panels
+pairs(banco[, 1:4])
+pairs.panels(banco[ , 1:4])
+pairs.panels(banco[ , 5:9])
 
 ####
 
@@ -102,3 +105,28 @@ chisq.test(Idade, Terreno)
 ks.test(Idade, Terreno)
 
 #### Testes muito inuteis nessa situação
+
+
+###
+medias <- apply(banco, 2, "mean")
+medias
+
+normalidade_shapiro <- apply(banco, 2, shapiro.test)
+library(nortest)
+normalidade_lillie <- apply(banco, 2, lillie.test)
+# os grficos vao ser aqueles mesmo
+
+
+# Existe diferenca entre o preco de venda e o anunciado, segundo o parâmetro de locacaoo?
+# O parametro de locação a ser usado é a mediana, elas sao diferentes ou iguais
+
+
+# H0: NÃO existe diferenca entre o preco de venda e o anunciado, segundo o parâmetro de locacao
+# H1: Existe diferenca entre o preco de venda e o anunciado, segundo o parâmetro de locacao
+
+SIGN.test(Preco_Anunciado,Preco_de_Venda,alternative = "two.sided")
+wilcox.test(Preco_Anunciado,Preco_de_Venda, paired = TRUE)
+
+# Rejeita H0, ou seja, rejeita-se a hipótese que que não há diferença entre o preçode venda e o preço
+# anunciado, ou seja podemos afirmar que há diferença entre eles. para ambos os testes com p-valores
+# 3.331e-15 e 1.082e-09 para os teste de do sinal e o teste de Wilcoxon respectivamente.
