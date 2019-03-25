@@ -11,8 +11,8 @@ library(robustbase)
 library(mvoutlier)
 
 ####### Banco de dados Casas
-ficheiro = file.choose()
-banco = read.table(file = ficheiro, header=TRUE, sep = ";", dec = ".")
+# ficheiro = file.choose()
+# banco = read.table(file = ficheiro, header=TRUE, sep = ";", dec = ".")
 banco
 
 attach(banco)
@@ -72,4 +72,33 @@ qqnorm(Preco_Anunciado); qqline(Preco_Anunciado, col = 2)
 # de uma mesma popula¸c˜ao (ou de popula¸c˜oes com a mesma distribui¸c˜ao). Trata-se da vers˜ao para duas amostras do teste de Kolmogorov para bondade do ajuste.
 
 
+####################################################################
+# O que você pode dizer acerca da distribuição dos dados? E o que isso implica?
+detach(banco)
+library(psych)
+pairs(banco)
+pairs.panels(banco)
+?pairs.panels
 
+####
+
+attach(banco)
+names(banco)
+
+# "Preco_de_Venda"  "Preco_Anunciado" 
+chisq.test(Preco_de_Venda, Preco_Anunciado)
+ks.test(Preco_de_Venda, Preco_Anunciado)
+
+# "area_util", "Coodos"
+chisq.test(area_util,Coodos)
+ks.test(area_util, Coodos)
+
+# "Quartos"         "Banheiros"
+chisq.test(Quartos, Banheiros)
+ks.test(Quartos, Banheiros)
+
+# Idade"           "Terreno
+chisq.test(Idade, Terreno)
+ks.test(Idade, Terreno)
+
+#### Testes muito inuteis nessa situação
