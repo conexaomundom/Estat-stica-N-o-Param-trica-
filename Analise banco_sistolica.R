@@ -38,7 +38,9 @@ medias_SISTOLICA
 
 # Nada posso afirmar sobre, até pq nenhum teste pode ser aplicado.
 
-######################################################
+#####################################################################################
+## Realizando testes nao parametricos
+#####################################################################################
 # Existe associaçaõ entre genero e raça?
 
 # H0: Nao xiste associaçaõ entre genero e raça
@@ -106,7 +108,33 @@ wilcox.test(Pre_Exerc_com_Estresse_Verbal,Pos_Exerc_com_Estresse_Verbal, paired 
 # pre e pos de exercicios sem estresse Verbal.
 
   
-# Podemos afirmar que a press˜ao sangu´ınea aumenta ap´os o exerc´ıcio?
+##### Podemos afirmar que a press˜ao sangu´ınea aumenta ap´os o exerc´ıcio?
+
+# Apos realizar os testes para verificar se ha diferenças vamos calcular se aumenta apos o exercicio
+# vamos calcular se pos exercicio com estresse matemarica e por exercicio com estresse verbal é maior que 
+# pre exercicios com esses tipor de estresse. Não vamos fazer com o pre e pós exercicio sem estresse
+# pois o teste anterior apontou que nao há diferenca nessas variaveis.
+
+# H0: A pressao sanguinea é maior pre exercicio com estresse matematica >=0
+# H!: A pressao sanguinea é maior pos exercicio com estresse matematica <0
+
+wilcox.test(Pre_Exerc_com_Estresse_Matematica,Pos_Exerc_com_Estresse_Matematica,
+            paired = TRUE, alternative = "less")
+# AO realizar o teste de wilcoxon para saber se apressao sanguinea é maior pos exercicio
+# com estresse matematica o p-valor resultou em 0.9999 rejeitando a hipotese nula, ou seja,
+# podemos afirmar com base na amostra que a pressão sanguinea aumenta após o exercicio com
+# estresse Matematica.
+
+wilcox.test(Pre_Exerc_com_Estresse_Verbal,Pos_Exerc_com_Estresse_Verbal,
+            paired = TRUE, alternative = "less")
+# Ao realizar o teste de wilcoxon para saber se apressao sanguinea é maior pos exercicio
+# com estresse matematica o p-valor resultou em um valor extremamente proximo de 1 rejeitando 
+# a hipotese nula, ou seja, podemos afirmar com base na amostra que a pressão sanguinea aumenta 
+# após o exercicio com estresse Verbal.
+
   
 # Quais diferentes press˜oes sangu´ıneas podemos dizer que tˆem a mesma distribui¸c˜ao?
 
+#####################################################################################
+## Realizando testes PARAMETRICOS
+#####################################################################################
