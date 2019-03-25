@@ -38,4 +38,20 @@ medias_SISTOLICA
 
 # Nada posso afirmar sobre, até pq nenhum teste pode ser aplicado.
 
-# Existe associa¸c˜ao entre gˆenero e ra¸ca?
+######################################################
+# Existe associaçaõ entre genero e raça?
+
+# H0: Nao xiste associaçaõ entre genero e raça
+# H1: Existe associaçaõ entre genero e raça
+attach(SISTOLICA)
+
+sexo = ifelse(SISTOLICA$Sexo == "Masculino", 1, 0)
+raca = ifelse(SISTOLICA$Raça == "Branca", 1, 0)
+matriz <- matrix(c(0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1), 24, 2, byrow = FALSE)
+chisq.test(matriz)
+
+# NA REALIDADDE CREIO EU QUE AQUI SE APLIQUE O TESTE EXATO DE FISHER
+
+fisher.test(matriz)
+
+# Rejeito H0, ou sjea, existe associação entre genero e raça????????.
