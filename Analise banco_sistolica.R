@@ -55,3 +55,20 @@ chisq.test(matriz)
 fisher.test(matriz)
 
 # Rejeito H0, ou sjea, existe associação entre genero e raça????????.
+
+##########################
+# Existe diferença no parÂmetro de loca¸c˜ao da press˜ao sangu´ınea entre os gˆeneros?
+
+# H0: NÃO Existe diferença no parÂmetro de loca¸c˜ao da press˜ao sangu´ınea entre os gˆeneros?
+# H1: Existe diferença no parÂmetro de loca¸c˜ao da press˜ao sangu´ınea entre os gˆeneros
+names(SISTOLICA)
+SIGN.test(sexo, Pre-Exerc._sem_Estresse,alternative = "two.sided")
+wilcox.test(sexo, Pre-Exerc._sem_Estresse, paired = TRUE)
+
+
+# Entre quais tipo de press˜ao sangu´ınea existe diferen¸ca em relaçao ao parˆametro de locaçaõ?x
+  
+# Podemos afirmar que a press˜ao sangu´ınea aumenta ap´os o exerc´ıcio?
+  
+# Quais diferentes press˜oes sangu´ıneas podemos dizer que tˆem a mesma distribui¸c˜ao?
+
