@@ -67,7 +67,10 @@ ks.test(Preco_de_Venda, Preco_Anunciado)
 library(nortest)
 shapiro.test(Preco_Anunciado)
 lillie.test(Preco_Anunciado)
-qqnorm(Preco_Anunciado); qqline(Preco_Anunciado, col = 2)
+detach(banco)
+library(psych)
+pairs(banco[, 1:2])
+pairs.panels(banco[ , 1:2])
 
 # nenhum dos dois bancos seguem normalidade 
 
