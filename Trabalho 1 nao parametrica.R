@@ -6,20 +6,18 @@ install.packages("moments")
 install.packages("robustbase")
 install.packages("mvoutlier")
 install.packages("BSDA")
+
 library(BSDA)
-
-
 library(moments)
 library(robustbase)
 library(mvoutlier)
 
 ####### Banco de dados Casas
-# ficheiro = file.choose()
-# banco = read.table(file = ficheiro, header=TRUE, sep = ";", dec = ".")
 banco
-
 attach(banco)
 names(banco)
+
+
 ########################################################################
 # A distribuição do preço de venda é a mesma do preço anunciado.
 # essas duas veriaveis estão em milhares de dolares
@@ -47,6 +45,11 @@ summary(Preco_Anunciado)
 var(Preco_Anunciado)
 # variancia alta  6301.617 ne
 length(Preco_Anunciado)
+
+detach(banco)
+library(psych)
+pairs(banco[, 1:2])
+pairs.panels(banco[ , 1:2])
 # Para testar se Preco_de_Venda e Preco_Anunciado têm a mesma distribuição faz-se o 
 # teste de Smirnov para duas amostras, o teste é feito para captar diferenças 
 # nos parâmetros de locacao e no formato da distribuição. Como o tamanho da amostra
@@ -67,15 +70,13 @@ ks.test(Preco_de_Venda, Preco_Anunciado)
 library(nortest)
 shapiro.test(Preco_Anunciado)
 lillie.test(Preco_Anunciado)
-detach(banco)
-library(psych)
-pairs(banco[, 1:2])
-pairs.panels(banco[ , 1:2])
+
 
 # nenhum dos dois bancos seguem normalidade 
 
 # O objetivo deste teste ´e comprovar se duas amostras foram extra´ıdas
-# de uma mesma popula¸c˜ao (ou de popula¸c˜oes com a mesma distribui¸c˜ao). Trata-se da vers˜ao para duas amostras do teste de Kolmogorov para bondade do ajuste.
+# de uma mesma popula¸c˜ao (ou de popula¸c˜oes com a mesma distribui¸c˜ao). 
+# Trata-se da vers˜ao para duas amostras do teste de Kolmogorov para bondade do ajuste.
 
 
 ####################################################################
