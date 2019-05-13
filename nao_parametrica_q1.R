@@ -110,15 +110,21 @@ for(i in 1:k){
     amostra <-  sample(x,length(x),replace = TRUE)
     est <- wilcox.test(amostra, alternative = "two.sided")
     
-    vetorp[j] <- est$p.value
+    vetorp[j] <- ifelse(est$p.value == est$p.value, est$p.value,0)
     
-    vetor1[j] <- ifelse(est$p.value < alpha1,1,0)
-    vetor2[j] <- ifelse(est$p.value < alpha2,1,0)
-    vetor3[j] <- ifelse(est$p.value < alpha3,1,0)
+    vetor1[j] <- ifelse(est$p.value < alpha1,est$p.value,0)
+    vetor2[j] <- ifelse(est$p.value < alpha2,est$p.value,0)
+    vetor3[j] <- ifelse(est$p.value < alpha3,est$p.value,0)
   }
   
-  estp <- c(vetorp * vetor1, vetorp * vetor2, vetorp * vetor3)
-  meanestp <- mean(estp)
+  which0 <- which(vetorp == 0)
+  which01 <- which(vetor1 == 0)
+  which02 <- which(vetor2 == 0)
+  which03 <- which(vetor3 == 0)
+  
+  
+  
+
   se_B1[i] <- (sum( ((estp - meanestp)^2)/(B-1) ))^(1/2)
   se_B2[i] <- (sum( ((vetorp - mean(vetorp))^2)/(B-1) ))^(1/2)
 }
