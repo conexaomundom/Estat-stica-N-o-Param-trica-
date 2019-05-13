@@ -115,3 +115,36 @@ ic
 ###############################################################################
 # Monte Carlo com bootstrap, para alpha.
 ###############################################################################
+which0 <- NULL
+m1 <- NULL
+
+intervalo_confianca2 <- matrix(0, k, 2)
+
+for(i in 1:k){
+  vetorp <- NULL
+  
+  x <- rnorm(n, mean = 0, sd = 1)
+  # O bootstrap começa aqui.
+  for(j in 1:B){
+    amostra <-  sample(x,length(x),replace = TRUE)
+    est <- wilcox.test(amostra, alternative = "two.sided")
+    vetorp[j] <- ifelse(est$p.value == est$p.value, est$p.value,0)
+    
+  }
+  
+  m1[i] <- mean(vetorp)
+  
+  se_B2[i] <- (sum( ((vetorp - m1[i])^2)/(B-1) ))^(1/2)
+  
+  intervalo_confianca2[i, ] <- c(m1[i] - (qnorm(1-(0.05/2)) * se_B2[i]),
+                                 m1[i] + (qnorm(1-(0.05/2)) * se_B2[i]))
+  
+}
+
+apply(intervalo_confianca2, 2, "mean")
+
+aa1 <- sort(intervalo_confianca2[ ,1])
+bb1 <- sort(intervalo_confianca2[ ,2])
+
+ic1 <- c(quantile(aa1,(0.05/2)), quantile(bb1,1-(0.05/2)))
+ic1
