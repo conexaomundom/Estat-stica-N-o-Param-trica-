@@ -80,60 +80,38 @@ mean(qm1)
 mean(qm2)
 mean(qm3)
 ###############################################################################
-# Monte Carlo com bootstrap, para estimar o erro padrão.
+# Monte Carlo com bootstrap, para estimar o erro padrão e .
 ###############################################################################
-alpha1 <- 0.1
-alpha2 <- 0.05
-alpha3 <- 0.01
 
-which0 <- NULL
-which01 <- NULL
-which02 <- NULL
-which03 <- NULL
-
-m1 <- NULL
-m2 <- NULL
-m3 <- NULL
-m4 <- NULL
-
+intervalo_confianca1 <- matrix(0,k,2)
+mu <- NULL
+mediamu <- NULL
+se_B1 <- NULL
 for(i in 1:k){
-  vetor1 <- NULL
-  vetor2 <- NULL
-  vetor3 <- NULL
-  vetorp <- NULL
-  vetorp <- NULL
-  
-  q1 <- NULL
-  q2 <- NULL
-  q3 <- NULL
-  
   x <- rnorm(n, mean = 0, sd = 1)
   # O bootstrap começa aqui.
   for(j in 1:B){
     amostra <-  sample(x,length(x),replace = TRUE)
-    mu <- mean(amostra)
-
-
+    mu[j] <- mean(amostra)
   }
   
-
-  
+ mediamu[i] <- mean(mu)
+ se_B1[i] <- (sum( ((mu - mediamu[i])^2)/(B-1) ))^(1/2)
+ 
+ intervalo_confianca1[i, ] <- c(mediamu[i] - (qnorm(1-(0.05/2)) * se_B1[i]),
+                                mediamu[i] + (qnorm(1-(0.05/2)) * se_B1[i]))
+ 
 }
 
+apply(intervalo_confianca1, 2, "mean")
 
+a1 <- sort(intervalo_confianca1[ ,1])
+b1 <- sort(intervalo_confianca1[ ,2])
 
-# se_B1[i] <- (sum( ((estp - meanestp)^2)/(B-1) ))^(1/2)
-# se_B2[i] <- (sum( ((vetorp - mean(vetorp))^2)/(B-1) ))^(1/2)
-# 
-# se_B1boot <- mean(se_B1)
-# se_B2boot <- mean(se_B2)
+ic <- c(quantile(a1,(0.05/2)), quantile(b1,1-(0.05/2)))
+ic
+# Esse foi para a média 
 
 ###############################################################################
-# Monte Carlo com bootstrap, para intervalo de confiança.
+# Monte Carlo com bootstrap, para alpha.
 ###############################################################################
-intervalo_confianca1 <- c(alpha_estimado-(qnorm(1-alpha_estimado/2) * se_B1boot),
-                          alpha_estimado+(qnorm(1-alpha_estimado/2) * se_B1boot))
-
-
-intervalo_confianca2 <- c(alpha_estimado-(qnorm(1-alpha_estimado/2) * se_B2boot),
-                          alpha_estimado+(qnorm(1-alpha_estimado/2) * se_B2boot))
