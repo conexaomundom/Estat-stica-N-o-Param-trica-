@@ -79,6 +79,21 @@ for(i in 1:k){
 mean(qm1)
 mean(qm2)
 mean(qm3)
+
+
+# Primeiro intervalo de confiança
+alpha95 <- 0.05
+k1 <- ifelse(trunc((10*B)*(alpha95/2)) == ((10*B)*(alpha95/2)), ((10*B)*(alpha95/2)), trunc(((B + 1)*10) * (alpha95/2)) + 1)
+k2 <- ifelse(trunc((10*B)*(1-(alpha95/2))) == ((10*B)*(1-(alpha95/2))), ((10*B)*(1-(alpha95/2))), trunc(((B + 1)*10) * (1-(alpha95/2))) + 1)
+
+IC1 <- c(qm1[k1], qm1[k2])
+IC2 <- c(qm2[k1], qm2[k2])
+IC3 <- c(qm3[k1], qm3[k2])
+
+IC11 <- c(mean(qm1) - (qnorm(1-(alpha95/2)) * sd(qm1)), mean(qm1) + (qnorm(1-(alpha95/2)) * sd(qm1)))
+IC22 <- c(mean(qm2) - (qnorm(1-(alpha95/2)) * sd(qm2)), mean(qm2) + (qnorm(1-(alpha95/2)) * sd(qm2)))
+IC33 <- c(mean(qm3) - (qnorm(1-(alpha95/2)) * sd(qm3)), mean(qm3) + (qnorm(1-(alpha95/2)) * sd(qm3)))
+
 ###############################################################################
 # Monte Carlo com bootstrap, para estimar o erro padrão e .
 ###############################################################################
@@ -134,17 +149,9 @@ for(i in 1:k){
   
   m1[i] <- mean(vetorp)
   
-  se_B2[i] <- (sum( ((vetorp - m1[i])^2)/(B-1) ))^(1/2)
-  
-  intervalo_confianca2[i, ] <- c(m1[i] - (qnorm(1-(0.05/2)) * se_B2[i]),
-                                 m1[i] + (qnorm(1-(0.05/2)) * se_B2[i]))
-  
 }
 
-apply(intervalo_confianca2, 2, "mean")
+aa1 <- sort(m1)
 
-aa1 <- sort(intervalo_confianca2[ ,1])
-bb1 <- sort(intervalo_confianca2[ ,2])
 
-ic1 <- c(quantile(aa1,(0.05/2)), quantile(bb1,1-(0.05/2)))
-ic1
+
