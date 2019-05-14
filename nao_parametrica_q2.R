@@ -1,3 +1,4 @@
+
 # Regressao nao parametrica
 install.packages("ISLR")
 install.packages("np")
@@ -20,6 +21,7 @@ attach(Wage)
 ####################################
 ## Modelo linear
 ####################################
+
 modelo_glm1 <- glm(wage ~ ns(year) + ns(age,5) + education, family = gaussian(link = "identity"), data = Wage)
 fit_modelo_glm1 <- summary(modelo_glm1)
 
@@ -46,31 +48,7 @@ which(d == min(d))
 AIC(modelo_glm3)
 BIC(modelo_glm3)
 
-a <- c(AIC(modelo_glm1), AIC(modelo_glm2), AIC(modelo_glm3))
-b <- c(BIC(modelo_glm1), BIC(modelo_glm2), BIC(modelo_glm3))
-
 cbind(a,b)
-
-residuos_modelo_glm <- modelo_glm3$residuals
-fit_modelo_glm <- modelo_glm3$fitted.values
-
-# Verificando a Normalidade
-library(nortest)
-qqnorm(residuos_modelo_glm); qqline(residuos_modelo_glm)
-shapiro.test(residuos_modelo_glm)
-lillie.test(residuos_modelo_glm)
-
-# Verificando  a Homocedasticidade
-plot(residuos_modelo_glm, fit_modelo_glm)
-
-# Verificando função de ligação
-plot(fit_modelo_glm, wage)
-
-# Verificando a Independecia dos Erros
-acf(residuos_modelo_glm)
-# A partir há dois lags que cairam fora do intervalo de confiança
-# porém como as correlações foram abaixo de 0.2 então podemos
-# considerar que a suposição de autocorrelação não foi violada.
 
 ####################################
 ## Modelo Kernel
@@ -78,8 +56,9 @@ acf(residuos_modelo_glm)
 par(mfrow = c(2,2))
 
 
-ajust1 = sm.regression(year, wage)
-ajust2 = sm.regression(age, wage)
+
+# ajust1 = sm.regression(year, wage)
+# ajust2 = sm.regression(age, wage)
 ajust3 = sm.regression(cbind(year,age), wage)
 
 
@@ -96,4 +75,10 @@ plot(modelo_gam2, se = TRUE, col = "blue")
 
 AIC(modelo_gam2)
 BIC(modelo_gam2)
+
+a <- c(AIC(modelo_glm3), AIC(modelo_gam2))
+b <- c(BIC(modelo_glm3),  BIC(modelo_gam2))
+a
+b
+
 
