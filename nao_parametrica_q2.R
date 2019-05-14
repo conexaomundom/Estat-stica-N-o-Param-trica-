@@ -2,7 +2,9 @@
 install.packages("ISLR")
 install.packages("np")
 install.packages("gam")
+install.packages("sm")
 
+library(sm)
 library(ISLR)
 library(np)
 library(gam)
@@ -75,13 +77,10 @@ acf(residuos_modelo_glm)
 ####################################
 par(mfrow = c(2,2))
 
-plot(Hours, Fissures, xlim = c(400,4600)); abline(lm(Fissures ~ Hours), data = fissBD)
-ajust1 = sm.regression(Hours, Fissures)
 
-plot(Turbines, Fissures, xlim = c(10,80)); abline(lm(Fissures ~ Turbines), data = fissBD)
-ajust2 = sm.regression(Turbines, Fissures)
-
-ajust3 = sm.regression(cbind(Hours,Turbines), Fissures)
+ajust1 = sm.regression(year, wage)
+ajust2 = sm.regression(age, wage)
+ajust3 = sm.regression(cbind(year,age), wage)
 
 
 ####################################
@@ -97,22 +96,4 @@ plot(modelo_gam2, se = TRUE, col = "blue")
 
 AIC(modelo_gam2)
 BIC(modelo_gam2)
-
-residuos_modelo_gam2 <- modelo_gam2$residuals
-fit_modelo_gam2  <- modelo_gam2$fitted.values
-
-# Verificando a Normalidade
-library(nortest)
-qqnorm(residuos_modelo_gam2); qqline(residuos_modelo_gam2)
-shapiro.test(residuos_modelo_gam2)
-lillie.test(residuos_modelo_gam2)
-
-# Verificando  a Homocedasticidade
-plot(residuos_modelo_gam2, fit_modelo_gam2)
-
-# Verificando função de ligação
-plot(fit_modelo_gam2, wage)
-
-# Verificando a Independecia dos Erros
-acf(residuos_modelo_gam2)
 
