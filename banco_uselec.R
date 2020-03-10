@@ -9,7 +9,8 @@ library(expsmooth)
 ?uselec
 autoplot(uselec)
 ggseasonplot(uselec)
-
+# sd(uselec)
+# uselec
 summary(uselec)
 
 ndiffs(uselec)
@@ -37,8 +38,10 @@ matrix(c(modelo1$aic,modelo1$aicc,modelo1$bic,
 # tornala estacionária.
 # com o aic, bic, com d = 1, e com D = 1 também.
 
-
-
+# ARIMA(1,0,2)(0,1,1)
+# ARIMA(1,0,0)(0,1,1)
+d_sarima01 <- sarima(uselec, 1,0,2, 0,1,1, 12) # Melhores modelos.
+d_sarima02 <- sarima(uselec, 1,0,0, 0,1,1, 12) # Melhores modelos.
 d_sarima1 <- sarima(uselec, 1,1,2, 0,1,1, 12)
 d_sarima2 <- sarima(uselec, 1,1,0, 1,0,0, 12)
 d_sarima3 <- sarima(uselec, 1,1,0, 1,1,0, 12)
@@ -85,7 +88,7 @@ d_sarima3 <- sarima(uselec, 1,1,0, 1,1,0, 12)
 # METODOS DE PREVISAO
 #############
 
-uselec2 <- window(uselec, start = 1985, end = c(1996,10)) #truncar a serie retirando o ultimo ano
+uselec2 <- window(uselec, start = 1985, end = c(1995,10)) #truncar a serie retirando o ultimo ano
 uselec3 <- window(uselec, start = c(1995,11)) # ultimo ano da serie
 
 ###############
@@ -94,17 +97,14 @@ uselec3 <- window(uselec, start = c(1995,11)) # ultimo ano da serie
 ###############
 
 #sarimax
-#a) dummy
-d = rep(0, length(uselec))
-d[3] = 1
 
-fit1_xreg_dummy <- sarima(uselec, 1,1,2, 0,1,1, 12, xreg = d) # Passou nos testes, mas aceitavel
-fit2_xreg_dummy <- sarima(uselec, 1,1,0, 1,0,0, 12, xreg = d) # Não passou nos testes, mas NÃO aceitavel
-fit3_xreg_dummy <- sarima(uselec, 1,1,0, 1,1,0, 12, xreg = d) # Não passou nos testes, mas NÃO aceitavel
+# ARIMA(1,0,2)(0,1,1)
+# ARIMA(1,0,0)(0,1,1)
 
 #b) tendencia
 t = decompose(uselec)$trend
-
+fit01_xreg_tend <- sarima(uselec, 1,0,2, 0,1,1, 12, xreg = t) # Passou nos testes, mas aceitavel
+fit02_xreg_tend <- sarima(uselec, 1,0,0, 0,1,1, 12, xreg = t) # Não passou nos testes, mas NÃO aceitavel
 fit1_xreg_tend <- sarima(uselec, 1,1,2, 0,1,1, 12, xreg = t) # Não passou nos testes, mas NÃO aceitavel
 fit2_xreg_tend <- sarima(uselec, 1,1,0, 1,0,0, 12, xreg = t) # Não passou nos testes, mas NÃO aceitavel
 fit3_xreg_tend <- sarima(uselec, 1,1,0, 1,1,0, 12, xreg = t) # Não passou nos testes, mas NÃO aceitavel
@@ -112,7 +112,10 @@ fit3_xreg_tend <- sarima(uselec, 1,1,0, 1,1,0, 12, xreg = t) # Não passou nos t
 
 #c) sazionalidade
 s = decompose(uselec)$seasonal
-fit1_xreg_seasonal <- sarima(uselec, 1,1,2, 0,1,1, 12, xreg = s) # Passou nos testes, aceitavel
+
+fit01_xreg_seasonal <- sarima(uselec, 1,0,2, 0,1,1, 12, xreg = s) # Passou nos testes, mas NÃO aceitavel
+fit02_xreg_seasonal <- sarima(uselec, 1,0,0, 0,1,1, 12, xreg = s) # Não passou nos testes, mas NÃO aceitavel
+fit1_xreg_seasonal <- sarima(uselec, 1,1,2, 0,1,1, 12, xreg = s) # Não passou nos testes, mas NÃO aceitavel
 fit2_xreg_seasonal <- sarima(uselec, 1,1,0, 1,0,0, 12, xreg = s) # Não passou nos testes, mas NÃO aceitavel
 fit3_xreg_seasonal <- sarima(uselec, 1,1,0, 1,1,0, 12, xreg = s) # Não passou nos testes, mas NÃO aceitavel
 
@@ -121,8 +124,8 @@ fit3_xreg_seasonal <- sarima(uselec, 1,1,0, 1,1,0, 12, xreg = s) # Não passou n
 ###############
 ###############
  
-fit.sarima1.uselec2=arima(uselec2, order = c(1,1,2), seasonal = list(order = c(0,1,1)))
-fit.sarima2.uselec2=arima(uselec2, order = c(2, 1, 0), seasonal = list(order = c(1, 0, 0)))
+fit_sarima1_uselec2 <- arima(uselec2, order = c(1,1,2), seasonal = list(order = c(0,1,1)))
+fit_sarima2_uselec2 <- arima(uselec2, order = c(2, 1, 0), seasonal = list(order = c(1, 0, 0)))
 
 pred.uselec.sarima1 <- predict(fit.sarima1.uselec2,n.ahead=12, se.fit=T)
 pred.uselec.sarima1$pred
@@ -132,55 +135,44 @@ pred.uselec.sarima2$pred
 
 accuracy(pred.uselec.sarima1$pred, uselec3)[1, c(3,2,5)]
 accuracy(pred.uselec.sarima2$pred, uselec3)[1, c(3,2,5)]
+#################
+#################
+#################
 
 ############# tendencia, dummy, sazionalidade
 
-t2 = t[-c(177:188)]
-d2 = d[-c(177:188)]
-s2 = s[-c(177:188)]
+t2 <- t[-c(131:142)]
+s2 <- s[-c(131:142)]
 
-t3 = t[c(177:188)]
-d3 = d[c(177:188)]
-s3 = s[c(177:188)]
-
-fit.sarima1.t.uselec2=arima(uselec2, order = c(2, 1, 0), seasonal = list(order = c(2, 0, 0)), xreg = t2)
-fit.sarima2.t.uselec2=arima(uselec2, order = c(2, 1, 0), seasonal = list(order = c(1, 0, 0)), xreg = t2)
-fit.sarima1.d.uselec2=arima(uselec2, order = c(2, 1, 0), seasonal = list(order = c(2, 0, 0)), xreg = d2)
-fit.sarima2.d.uselec2=arima(uselec2, order = c(2, 1, 0), seasonal = list(order = c(1, 0, 0)), xreg = d2)
-fit.sarima1.s.uselec2=arima(uselec2, order = c(2, 1, 0), seasonal = list(order = c(2, 0, 0)), xreg = s2)
-fit.sarima2.s.uselec2=arima(uselec2, order = c(2, 1, 0), seasonal = list(order = c(1, 0, 0)), xreg = s2)
+t3 <- t[c(131:142)]
+s3 <- s[c(131:142)]
+# ARIMA(1,0,2)(0,1,1)
+# ARIMA(1,0,0)(0,1,1)
+fit1_sarima_t_uselec2 <- arima(uselec2, order = c(1,0,2), seasonal = list(order = c(0,1,1)))
+fit2_sarima_s_uselec2 <- arima(uselec2, order = c(1,0,0), seasonal = list(order = c(0,1,1)))
+fit3_sarima_t_uselec2 <- arima(uselec2, order = c(1,0,2), seasonal = list(order = c(0,1,1)), xreg = t2)
+fit4_sarima_s_uselec2 <- arima(uselec2, order = c(1,0,2), seasonal = list(order = c(0,1,1)), xreg = s2)
 
 
-pred.uselec2.sarima1.t <- predict(fit.sarima1.t.uselec2,n.ahead=12,xreg=t3, newxreg=t3)
-pred.uselec2.sarima2.t <- predict(fit.sarima2.t.uselec2,n.ahead=12,xreg=t3, newxreg=t3)
-pred.uselec2.sarima1.d <- predict(fit.sarima1.d.uselec2,n.ahead=12,xreg=d3, newxreg=d3)
-pred.uselec2.sarima2.d <- predict(fit.sarima2.d.uselec2,n.ahead=12,xreg=d3, newxreg=d3)
-pred.uselec2.sarima1.s <- predict(fit.sarima1.s.uselec2,n.ahead=12,xreg=s3, newxreg=s3)
-pred.uselec2.sarima2.s <- predict(fit.sarima2.s.uselec2,n.ahead=12,xreg=s3, newxreg=s3)
+pred_uselec2_sarima1 <- predict(fit1_sarima_t_uselec2, n.ahead = 12)
+pred_uselec2_sarima2 <- predict(fit2_sarima_s_uselec2, n.ahead = 12)
+pred_uselec2_sarima1_t <- predict(fit3_sarima_t_uselec2, n.ahead = 12, xreg = t3, newxreg = t3)
+pred_uselec2_sarima1_s <- predict(fit4_sarima_s_uselec2, n.ahead = 12, xreg = s3, newxreg = s3)
+
+pred_modelo_aic <- accuracy(pred_uselec2_sarima1$pred, uselec3)[1, c(3,2,5)]
+pred_modelo_bic <- accuracy(pred_uselec2_sarima2$pred, uselec3)[1, c(3,2,5)]
+pred_modelo_aic_t <- accuracy(pred_uselec2_sarima1_t$pred, uselec3)[1, c(3,2,5)]
+pred_modelo_aic_s <- accuracy(pred_uselec2_sarima1_s$pred, uselec3)[1, c(3,2,5)]
 
 
-pred.modelo.aic<- accuracy(pred.uselec.sarima1$pred, uselec3)[1, c(3,2,5)]
-pred.modelo.bic<- accuracy(pred.uselec.sarima2$pred, uselec3)[1, c(3,2,5)]
-pred.modelo.aic.t<- accuracy(pred.uselec2.sarima1.t$pred, uselec3)[1, c(3,2,5)]
-pred.modelo.bic.t<- accuracy(pred.uselec2.sarima2.t$pred, uselec3)[1, c(3,2,5)]
-pred.modelo.aic.d<- accuracy(pred.uselec2.sarima1.d$pred, uselec3)[1, c(3,2,5)]
-pred.modelo.bic.d<- accuracy(pred.uselec2.sarima2.d$pred, uselec3)[1, c(3,2,5)]
-pred.modelo.aic.s<- accuracy(pred.uselec2.sarima1.s$pred, uselec3)[1, c(3,2,5)]
-pred.modelo.bic.s<- accuracy(pred.uselec2.sarima2.s$pred, uselec3)[1, c(3,2,5)]
+matrix(c(pred_modelo_aic[1],pred_modelo_aic[2],pred_modelo_aic[3],
+         pred_modelo_bic[1],pred_modelo_bic[2],pred_modelo_bic[3],
+         pred_modelo_aic_t[1],pred_modelo_aic_t[2],pred_modelo_aic_t[3],
+         pred_modelo_aic_s[1],pred_modelo_aic_s[2],pred_modelo_aic_s[3]),
+         4,3,byrow = TRUE,dimnames = list(c("modelo_aic", "modelo_bic",
+                                          "modelo_aic_t", "modelo.aic.s"), c("MAE", "RMSE", "MAPE")))
 
 
-matrix(c(pred.modelo.aic[1],pred.modelo.aic[2],pred.modelo.aic[3],
-         pred.modelo.bic[1],pred.modelo.bic[2],pred.modelo.bic[3],
-         pred.modelo.aic.t[1],pred.modelo.aic.t[2],pred.modelo.aic.t[3],
-         pred.modelo.bic.t[1],pred.modelo.bic.t[2],pred.modelo.bic.t[3],
-         pred.modelo.aic.d[1],pred.modelo.aic.d[2],pred.modelo.aic.d[3],
-         pred.modelo.bic.d[1],pred.modelo.bic.d[2],pred.modelo.bic.d[3],
-         pred.modelo.aic.s[1],pred.modelo.aic.s[2],pred.modelo.aic.s[3],
-         pred.modelo.bic.s[1],pred.modelo.bic.s[2],pred.modelo.bic.s[3]),
-       8,3,byrow = TRUE,dimnames = list(c("modelo.aic", "modelo.bic",
-                                          "modelo.aic.t", "modelo.bic.t",
-                                          "modelo.aic.d", "modelo.bic.d",
-                                          "modelo.aic.s", "modelo.bic.s"), c("MAE", "RMSE", "MAPE")))
 
 # Previsão excluindo as 12 ultimas observações
 
@@ -192,13 +184,13 @@ uselecfit2 <- rwf(uselec2, h = 12)
 uselecfit3 <- rwf(uselec2, h = 12, drift = TRUE)
 uselecfit4 <- snaive(uselec2, h = 12)
 
-autoplot(window(uselec, start = 1949)) +
+autoplot(window(uselec2, start = 1985)) +
   autolayer(uselecfit1, series = "Mean", PI = FALSE) +
   autolayer(uselecfit2, series = "Naive", PI = FALSE) +
   autolayer(uselecfit3, series = "Naive com drift", PI = FALSE) +
   autolayer(uselecfit4, series = "Naive com sazonalidade", PI = FALSE) +
-  ggtitle("Previsão para o número totl de passageiros") +
-  guides(colour = guide_legend(title = "PrevisãO"))
+  ggtitle("Previsão para o total de eletricidade gerada") +
+  guides(colour = guide_legend(title = "Previsão"))
 
 accuracy(uselecfit1, uselec3)[1, c(3,2,5)]
 
@@ -207,7 +199,7 @@ accuracy(uselecfit2, uselec3)[1, c(3,2,5)]
 accuracy(uselecfit3, uselec3)[1, c(3,2,5)]
 
 accuracy(uselecfit4, uselec3)[1, c(3,2,5)]
-# Quem ganhou foi o terceiro modelo.  
+# Quem ganhou foi o quarto modelo.  
 
 ##############################
 # Alisamento exponencial
